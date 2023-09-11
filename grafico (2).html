@@ -1,34 +1,32 @@
 <script type="text/javascript">
 
-//--------------------------------------------------------------------NEURONA
+//--------------------------------------------------------------------Perceptron
 const inputs = [
 	[1,1,-1,-1],
 	[1,-1,1,-1]
 ];
 const targuets = [1,1,-1,-1];
 
-class Neurona{
-	constructor(){
-		this.w = [];
-		this.bias = 0;
+class Perceptron{
+	static main(){
+		Perceptron.w = [];
+		Perceptron.bias = 0;
 
 		for(let i = 0;i < inputs.length;i++)
-			this.w[i] = 0;
+			Perceptron.w[i] = 0;
 	}
-	suma(step){
-		let suma = this.bias;
-		suma += this.w[0]*inputs[0][step]+this.w[1]*inputs[1][step];
+	static suma(step){
+		let suma = Perceptron.bias;
+		suma += Perceptron.w[0]*inputs[0][step]+Perceptron.w[1]*inputs[1][step];
 		return suma;
 	}
-	activation(x){
+	static activation(x){
 		if(x < 0)
 			return 1;
 		else
 			return -1;
 	}
-}
-
-let perceptron = new Neurona();
+}Perceptron.main();
 
 console.log(inputs +" - "+ targuets);
 
@@ -39,22 +37,22 @@ const TRAIN = () => {
 		let res = [];
 
 		for(let i = 0;i < 4;i++){
-			res[i] = perceptron.activation(perceptron.suma(i));
+			res[i] = Perceptron.activation(Perceptron.suma(i));
 
 			let error = res[i]-targuets[i];
 
-			console.log(`error:${error},w:${perceptron.w},bias:${perceptron.bias}`);
+			console.log(`error:${error},w:${Perceptron.w},bias:${Perceptron.bias}`);
 
-			perceptron.w[0] += 1*error*inputs[0][i];
-			perceptron.w[1] += 1*error*inputs[1][i];
-			perceptron.bias += 1*error;
+			Perceptron.w[0] += 1*error*inputs[0][i];
+			Perceptron.w[1] += 1*error*inputs[1][i];
+			Perceptron.bias += 1*error;
 		}
 
 		console.log(`res:${res}`);
 	}
 }; 
 TRAIN();
-//--------------------------------------------------------------------NEURONA
+//--------------------------------------------------------------------Perceptron
 
 //--------------------------------------------------------------------PINTAR
 document.write(`<canvas id="canvas" width="1280"height="720" style="width:100vw;height:100vh"></canvas>`);
@@ -76,25 +74,25 @@ const PRINT = () => {
 	for(let i = -1000;i < 1000;i += 10){
 		let dir = 1;
 		if(
-			(perceptron.w[0]*i+perceptron.bias+canvas.width/2-20 > perceptron.w[0]*(i+1)+perceptron.bias+canvas.width/2-20)
+			(Perceptron.w[0]*i+Perceptron.bias+canvas.width/2-20 > Perceptron.w[0]*(i+1)+Perceptron.bias+canvas.width/2-20)
 			||
-			(perceptron.w[1]*i+perceptron.bias+canvas.width/2-20 > perceptron.w[1]*(i+1)+perceptron.bias+canvas.width/2-20)
+			(Perceptron.w[1]*i+Perceptron.bias+canvas.width/2-20 > Perceptron.w[1]*(i+1)+Perceptron.bias+canvas.width/2-20)
 		)
 			dir = -1;
 		else
 			dir = 1;
 
 		let vertical = 0;
-		if(perceptron.w[1]*i+perceptron.bias+canvas.width/2-20 == perceptron.w[1]*(i+1)+perceptron.bias+canvas.width/2-20)
+		if(Perceptron.w[1]*i+Perceptron.bias+canvas.width/2-20 == Perceptron.w[1]*(i+1)+Perceptron.bias+canvas.width/2-20)
 			vertical = 1000;
 
 		ctx.fillStyle = "#e25";
-		ctx.fillRect(perceptron.w[1]*i+perceptron.bias+canvas.width/2,-perceptron.w[0]*i+perceptron.bias+canvas.height/2,(40+vertical)*dir,1000*dir);
+		ctx.fillRect(Perceptron.w[1]*i+Perceptron.bias+canvas.width/2,-Perceptron.w[0]*i+Perceptron.bias+canvas.height/2,(40+vertical)*dir,1000*dir);
 	}
 
 	ctx.beginPath();
-	ctx.moveTo(perceptron.w[1]*1000+perceptron.bias+canvas.width/2,-perceptron.w[0]*1000+perceptron.bias+canvas.height/2); 
-	ctx.lineTo(perceptron.w[1]*-1000+perceptron.bias+canvas.width/2,-perceptron.w[0]*-1000+perceptron.bias+canvas.height/2); 
+	ctx.moveTo(Perceptron.w[1]*1000+Perceptron.bias+canvas.width/2,-Perceptron.w[0]*1000+Perceptron.bias+canvas.height/2); 
+	ctx.lineTo(Perceptron.w[1]*-1000+Perceptron.bias+canvas.width/2,-Perceptron.w[0]*-1000+Perceptron.bias+canvas.height/2); 
 	ctx.strokeStyle = "#e25"; 
 	ctx.lineWidth = 60; 
 	ctx.stroke(); 
