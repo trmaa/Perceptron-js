@@ -21,7 +21,7 @@ class Perceptron{
 		return suma;
 	}
 	static activation(x){
-		if(x < 0)
+		if(x > 0)
 			return 1;
 		else
 			return -1;
@@ -43,9 +43,9 @@ const TRAIN = () => {
 
 			console.log(`error:${error},w:${Perceptron.w},bias:${Perceptron.bias}`);
 
-			Perceptron.w[0] += 1*error*inputs[0][i];
-			Perceptron.w[1] += 1*error*inputs[1][i];
-			Perceptron.bias += 1*error;
+			Perceptron.w[0] -= 1*error*inputs[0][i]; //1 is the learning rate (alfa)
+			Perceptron.w[1] -= 1*error*inputs[1][i];
+			Perceptron.bias -= 1*error;
 		}
 
 		console.log(`res:${res}`);
@@ -78,9 +78,9 @@ const PRINT = () => {
 			||
 			(Perceptron.w[1]*i+Perceptron.bias+canvas.width/2-20 > Perceptron.w[1]*(i+1)+Perceptron.bias+canvas.width/2-20)
 		)
-			dir = -1;
-		else
 			dir = 1;
+		else
+			dir = -1;
 
 		let vertical = 0;
 		if(Perceptron.w[1]*i+Perceptron.bias+canvas.width/2-20 == Perceptron.w[1]*(i+1)+Perceptron.bias+canvas.width/2-20)
@@ -115,14 +115,13 @@ document.addEventListener("mousemove",(ev) => {
 	my = ev.clientY;
 });
 document.addEventListener("click",(ev) => {
-	for(let i = 0;i < targuets.length;i++){
+	for(let i = 0;i < targuets.length;i++)
 		if(
 			(ev.clientX > (inputs[0][i]*100+canvas.width/2)-5 && ev.clientX < (inputs[0][i]*100+canvas.width/2)-5+10)
 			&&
 			(ev.clientY > (inputs[1][i]*100+canvas.height/2)-5 && ev.clientY < (inputs[1][i]*100+canvas.height/2)-5+10)
 		)
 			targuets[i] *= -1;
-	}
 	TRAIN();
 });
 
